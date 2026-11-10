@@ -1,0 +1,478 @@
+{
+ "create_proposal_draft": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": false
+  },
+  "input": {
+   "$defs": {
+    "ProposalInput": {
+     "properties": {
+      "bid_amount_usd": {
+       "exclusiveMinimum": 0,
+       "maximum": 100000,
+       "title": "Bid Amount Usd",
+       "type": "number"
+      },
+      "connects_cost": {
+       "maximum": 50,
+       "minimum": 0,
+       "title": "Connects Cost",
+       "type": "integer"
+      },
+      "cover_letter": {
+       "maxLength": 5000,
+       "minLength": 50,
+       "title": "Cover Letter",
+       "type": "string"
+      },
+      "dry_run": {
+       "default": false,
+       "title": "Dry Run",
+       "type": "boolean"
+      },
+      "idempotency_key": {
+       "maxLength": 128,
+       "minLength": 8,
+       "title": "Idempotency Key",
+       "type": "string"
+      },
+      "job_id": {
+       "maxLength": 64,
+       "minLength": 1,
+       "title": "Job Id",
+       "type": "string"
+      },
+      "rate_type": {
+       "default": "fixed",
+       "pattern": "^(fixed|hourly)$",
+       "title": "Rate Type",
+       "type": "string"
+      },
+      "screening_answers": {
+       "items": {
+        "type": "string"
+       },
+       "maxItems": 10,
+       "title": "Screening Answers",
+       "type": "array"
+      },
+      "trace_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Trace Id"
+      },
+      "user": {
+       "maxLength": 64,
+       "minLength": 1,
+       "title": "User",
+       "type": "string"
+      }
+     },
+     "required": [
+      "user",
+      "job_id",
+      "cover_letter",
+      "bid_amount_usd",
+      "connects_cost",
+      "idempotency_key"
+     ],
+     "title": "ProposalInput",
+     "type": "object"
+    }
+   },
+   "properties": {
+    "p": {
+     "$ref": "#/$defs/ProposalInput"
+    }
+   },
+   "required": [
+    "p"
+   ],
+   "title": "create_proposal_draftArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "dry_run": {
+     "title": "Dry Run",
+     "type": "boolean"
+    },
+    "preview": {
+     "additionalProperties": true,
+     "title": "Preview",
+     "type": "object"
+    },
+    "replayed": {
+     "default": false,
+     "title": "Replayed",
+     "type": "boolean"
+    },
+    "result": {
+     "additionalProperties": true,
+     "title": "Result",
+     "type": "object"
+    }
+   },
+   "required": [
+    "dry_run"
+   ],
+   "title": "WriteResult",
+   "type": "object"
+  }
+ },
+ "get_client_history": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "client_id": {
+     "title": "Client Id",
+     "type": "string"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user",
+    "client_id"
+   ],
+   "title": "get_client_historyArguments",
+   "type": "object"
+  },
+  "output": null
+ },
+ "get_connects_balance": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user"
+   ],
+   "title": "get_connects_balanceArguments",
+   "type": "object"
+  },
+  "output": null
+ },
+ "get_job": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "job_id": {
+     "title": "Job Id",
+     "type": "string"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user",
+    "job_id"
+   ],
+   "title": "get_jobArguments",
+   "type": "object"
+  },
+  "output": null
+ },
+ "list_messages": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "thread_id": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Thread Id"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user"
+   ],
+   "title": "list_messagesArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "result": {
+     "items": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "title": "Result",
+     "type": "array"
+    }
+   },
+   "required": [
+    "result"
+   ],
+   "title": "list_messagesOutput",
+   "type": "object"
+  }
+ },
+ "search_jobs": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "limit": {
+     "default": 20,
+     "maximum": 50,
+     "minimum": 1,
+     "title": "Limit",
+     "type": "integer"
+    },
+    "query": {
+     "default": "",
+     "maxLength": 200,
+     "title": "Query",
+     "type": "string"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user"
+   ],
+   "title": "search_jobsArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "result": {
+     "items": {
+      "additionalProperties": true,
+      "type": "object"
+     },
+     "title": "Result",
+     "type": "array"
+    }
+   },
+   "required": [
+    "result"
+   ],
+   "title": "search_jobsOutput",
+   "type": "object"
+  }
+ },
+ "send_message": {
+  "annotations": {
+   "destructiveHint": true,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": false
+  },
+  "input": {
+   "properties": {
+    "dry_run": {
+     "default": false,
+     "title": "Dry Run",
+     "type": "boolean"
+    },
+    "idempotency_key": {
+     "minLength": 8,
+     "title": "Idempotency Key",
+     "type": "string"
+    },
+    "text": {
+     "maxLength": 4000,
+     "minLength": 1,
+     "title": "Text",
+     "type": "string"
+    },
+    "thread_id": {
+     "title": "Thread Id",
+     "type": "string"
+    },
+    "trace_id": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Trace Id"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user",
+    "thread_id",
+    "text",
+    "idempotency_key"
+   ],
+   "title": "send_messageArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "dry_run": {
+     "title": "Dry Run",
+     "type": "boolean"
+    },
+    "preview": {
+     "additionalProperties": true,
+     "title": "Preview",
+     "type": "object"
+    },
+    "replayed": {
+     "default": false,
+     "title": "Replayed",
+     "type": "boolean"
+    },
+    "result": {
+     "additionalProperties": true,
+     "title": "Result",
+     "type": "object"
+    }
+   },
+   "required": [
+    "dry_run"
+   ],
+   "title": "WriteResult",
+   "type": "object"
+  }
+ },
+ "submit_proposal": {
+  "annotations": {
+   "destructiveHint": true,
+   "idempotentHint": true,
+   "openWorldHint": true,
+   "readOnlyHint": false
+  },
+  "input": {
+   "properties": {
+    "connects_cost": {
+     "default": 0,
+     "maximum": 50,
+     "minimum": 0,
+     "title": "Connects Cost",
+     "type": "integer"
+    },
+    "draft_id": {
+     "title": "Draft Id",
+     "type": "string"
+    },
+    "dry_run": {
+     "default": false,
+     "title": "Dry Run",
+     "type": "boolean"
+    },
+    "idempotency_key": {
+     "minLength": 8,
+     "title": "Idempotency Key",
+     "type": "string"
+    },
+    "trace_id": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Trace Id"
+    },
+    "user": {
+     "title": "User",
+     "type": "string"
+    }
+   },
+   "required": [
+    "user",
+    "draft_id",
+    "idempotency_key"
+   ],
+   "title": "submit_proposalArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "dry_run": {
+     "title": "Dry Run",
+     "type": "boolean"
+    },
+    "preview": {
+     "additionalProperties": true,
+     "title": "Preview",
+     "type": "object"
+    },
+    "replayed": {
+     "default": false,
+     "title": "Replayed",
+     "type": "boolean"
+    },
+    "result": {
+     "additionalProperties": true,
+     "title": "Result",
+     "type": "object"
+    }
+   },
+   "required": [
+    "dry_run"
+   ],
+   "title": "WriteResult",
+   "type": "object"
+  }
+ }
+}

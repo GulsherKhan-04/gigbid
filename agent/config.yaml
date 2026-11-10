@@ -1,0 +1,98 @@
+# Every model, budget, threshold and platform rule lives here. Nothing is hard-coded in nodes.
+marketplace:
+  mode: gigsim                # gigsim | upwork_live   (env MARKETPLACE_MODE overrides)
+  max_requests_per_minute: 20
+  scout_interval_minutes: 180 # live mode: never more often than this (see docs/RUNBOOK.md)
+
+profiles:
+  open:                       # REQUIRED profile: open-weight models only
+    provider: openai_compatible   # Groq / OpenRouter / Together / Ollama all speak this API
+    base_url_env: LLM_BASE_URL
+    api_key_env: LLM_API_KEY
+    nodes:
+      scout: openai/gpt-oss-20b
+      analyst: openai/gpt-oss-20b
+      risk_assessor: openai/gpt-oss-20b
+      fit_matcher: openai/gpt-oss-20b
+      pricing: openai/gpt-oss-20b
+      writer: openai/gpt-oss-120b
+      verifier: openai/gpt-oss-20b
+      critic: openai/gpt-oss-120b
+      compliance: openai/gpt-oss-20b
+      client_liaison: openai/gpt-oss-120b
+    fallback: openai/gpt-oss-20b
+  local:                      # fully offline: Ollama on your laptop
+    provider: openai_compatible
+    base_url_env: OLLAMA_OPENAI_URL
+    api_key_env: OLLAMA_API_KEY
+    nodes:
+      scout: qwen3:4b
+      analyst: qwen3:4b
+      risk_assessor: qwen3:4b
+      fit_matcher: qwen3:4b
+      pricing: qwen3:4b
+      writer: qwen3:8b
+      verifier: qwen3:4b
+      critic: qwen3:8b
+      compliance: qwen3:4b
+      client_liaison: qwen3:8b
+    fallback: qwen3:4b
+  paid:                       # optional; only where it beats `open` enough to justify the cost
+    provider: openai_compatible
+    base_url_env: PAID_LLM_BASE_URL
+    api_key_env: PAID_LLM_API_KEY
+    nodes: {}
+    fallback: null
+
+pricing_usd_per_million_tokens:   # used for cost reporting; update from your provider's price page
+  openai/gpt-oss-20b: {input: 0.10, output: 0.50}
+  openai/gpt-oss-120b: {input: 0.15, output: 0.75}
+
+embeddings:
+  provider: ollama            # ollama | hash (hash = offline tests only, never for evaluation)
+  model: nomic-embed-text
+  fastembed_model: BAAI/bge-small-en-v1.5   # EMBEDDINGS_PROVIDER=fastembed (deployments without Ollama)
+  base_url_env: OLLAMA_URL
+reranker:
+  model: BAAI/bge-reranker-base   # loaded with fastembed on CPU (optional extra "rerank")
+
+rag:
+  variant: v2_hybrid          # chosen by `make eval`; change only after measuring (R6)
+  k: 6
+
+budgets:
+  max_graph_steps: 40
+  max_revisions: 2
+  max_tokens_per_job: 30000
+  llm_timeout_seconds: 60
+  llm_retries: 4             # free tiers rate-limit by tokens per minute; we wait as long as the provider asks
+  declared_p95_seconds_per_job: 25
+  declared_p95_seconds_per_proposal: 60
+  declared_usd_per_job: 0.002
+  declared_usd_per_proposal: 0.01
+
+thresholds:
+  minimum_fit_score: 0.55
+  watch_fit_score: 0.40
+  maximum_risk_score: 0.60
+  auto_skip_below_fit: 0.25   # only used when the user's autonomy setting allows auto-skip
+
+# Platform rules. The change request on 2 Nov is absorbed by editing this block, not code.
+policy:
+  pack_path: data/policy_pack/marketplace_policy.md
+  connects:
+    weekly_budget_default: 80
+    min_expected_value_per_connect_usd: 2.0
+  banned_phrases: ["guarantee", "guaranteed", "100% satisfaction", "whatsapp", "telegram", "skype",
+                   "pay me directly", "outside upwork", "off-platform"]
+  max_proposal_words: 320
+  extra_rules: []             # e.g. "Proposals to clients without payment verification cost 2 extra Connects"
+
+experiments:                 # X2: proposal A/B test. Strategy = which writer prompt file is used
+  proposal_ab:
+    enabled: false
+    strategies: {A: writer, B: writer_b}
+    seed: 42
+
+autonomy:
+  default: suggest_only       # suggest_only | auto_skip_low_fit   (auto-send is never allowed)

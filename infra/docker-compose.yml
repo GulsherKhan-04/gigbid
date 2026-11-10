@@ -1,0 +1,73 @@
+# docker compose -f infra/docker-compose.yml --env-file .env up --build
+# Starts web+API, worker, three MCP servers, Postgres, Redis and Ollama. GigSim starts with `--profile gigsim`
+# once the instructor's gigsim/ folder is in the repo root.
+x-py: &py
+  build: { context: .., dockerfile: infra/docker/python.Dockerfile }
+  env_file: ../.env
+  environment: &pyenv
+    DATABASE_URL: postgresql+psycopg://gigbid:gigbid@postgres:5432/gigbid
+    REDIS_URL: redis://redis:6379/0
+    OLLAMA_URL: http://ollama:11434
+    OLLAMA_OPENAI_URL: http://ollama:11434/v1
+    MCP_TRANSPORT: http
+    MARKETPLACE_BACKEND: gigsim
+    GIGSIM_BASE_URL: http://simulator:8081
+    START_SIMULATOR: "0"
+    MARKETPLACE_LEDGER: /app/data/processed/ledger.db
+  volumes: [processed:/app/data/processed]
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:16
+    environment: { POSTGRES_USER: gigbid, POSTGRES_PASSWORD: gigbid, POSTGRES_DB: gigbid }
+    volumes: [pg:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U gigbid"], interval: 5s, retries: 10 }
+  redis:
+    image: redis:7
+    healthcheck: { test: ["CMD", "redis-cli", "ping"], interval: 5s, retries: 10 }
+  ollama:
+    image: ollama/ollama:latest
+    volumes: [ollama:/root/.ollama]
+    # pulls the embedding model on first start; add qwen3:4b / qwen3:8b for the `local` profile
+    entrypoint: ["sh", "-c", "ollama serve & sleep 4 && ollama pull nomic-embed-text && wait"]
+  portfolio-mcp:
+    <<: *py
+    command: python -m mcp_servers.portfolio.server
+    environment: { <<: *pyenv, PORT: "8101" }
+    depends_on: [ollama]
+  marketplace-mcp:
+    <<: *py
+    command: python -m mcp_servers.marketplace.server
+    environment: { <<: *pyenv, PORT: "8102" }
+  workspace-mcp:
+    <<: *py
+    command: python -m mcp_servers.workspace.server
+    environment: { <<: *pyenv, PORT: "8103" }
+  api:
+    <<: *py
+    command: sh -c "uvicorn apps.api.main:app --host 0.0.0.0 --port 8000"
+    environment: { <<: *pyenv, RUN_IN_WORKER: "1" }
+    ports: ["8000:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      portfolio-mcp: { condition: service_started }
+      marketplace-mcp: { condition: service_started }
+      workspace-mcp: { condition: service_started }
+  worker:
+    <<: *py
+    command: arq worker.main.WorkerSettings
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+  simulator:                  # GigSim-lite, the student-built stand-in (data generated on first start)
+    <<: *py
+    command: sh -c "python -m simulator.generate && uvicorn simulator.server:app --host 0.0.0.0 --port 8081"
+    ports: ["8081:8081"]
+  gigsim:
+    profiles: [gigsim]
+    build: ../gigsim          # the instructor's GigSim, if you receive it; never modified
+    ports: ["8082:8081"]
+
+volumes: { pg: {}, ollama: {}, processed: {} }

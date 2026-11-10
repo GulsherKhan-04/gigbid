@@ -1,0 +1,95 @@
+[
+ {
+  "id": "ai--rev-0",
+  "project": "Docker platform for a media client",
+  "text": "Great work on the docker platform for a media client; clear communication and on time.",
+  "skills": [
+   "Docker",
+   "FastAPI",
+   "PyTorch"
+  ],
+  "client_industry": "media"
+ },
+ {
+  "id": "ai--rev-1",
+  "project": "Docker pipeline for a education client",
+  "text": "Great work on the docker pipeline for a education client; clear communication and on time.",
+  "skills": [
+   "Docker",
+   "PyTorch",
+   "LLM fine-tuning"
+  ],
+  "client_industry": "education"
+ },
+ {
+  "id": "ai--rev-2",
+  "project": "Hugging Face service for a SaaS client",
+  "text": "Great work on the hugging face service for a saas client; clear communication and on time.",
+  "skills": [
+   "Hugging Face",
+   "pandas",
+   "PyTorch",
+   "FastAPI"
+  ],
+  "client_industry": "SaaS"
+ },
+ {
+  "id": "ai--rev-3",
+  "project": "RAG dashboard for a education client",
+  "text": "Great work on the rag dashboard for a education client; clear communication and on time.",
+  "skills": [
+   "RAG",
+   "LLM fine-tuning",
+   "Docker",
+   "scikit-learn"
+  ],
+  "client_industry": "education"
+ },
+ {
+  "id": "ai--rev-4",
+  "project": "Hugging Face service for a media client",
+  "text": "Great work on the hugging face service for a media client; clear communication and on time.",
+  "skills": [
+   "Hugging Face",
+   "MLflow",
+   "Docker"
+  ],
+  "client_industry": "media"
+ },
+ {
+  "id": "ai--rev-5",
+  "project": "MLflow dashboard for a real estate client",
+  "text": "Great work on the mlflow dashboard for a real estate client; clear communication and on time.",
+  "skills": [
+   "MLflow",
+   "Docker",
+   "Hugging Face",
+   "pandas"
+  ],
+  "client_industry": "real estate"
+ },
+ {
+  "id": "ai--rev-6",
+  "project": "Docker dashboard for a media client",
+  "text": "Great work on the docker dashboard for a media client; clear communication and on time.",
+  "skills": [
+   "Docker",
+   "pandas",
+   "Pinecone",
+   "LangChain"
+  ],
+  "client_industry": "media"
+ },
+ {
+  "id": "ai--rev-7",
+  "project": "LLM fine-tuning tool for a logistics client",
+  "text": "Great work on the llm fine-tuning tool for a logistics client; clear communication and on time.",
+  "skills": [
+   "LLM fine-tuning",
+   "Docker",
+   "MLflow",
+   "pandas"
+  ],
+  "client_industry": "logistics"
+ }
+]

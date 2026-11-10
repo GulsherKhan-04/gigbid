@@ -1,0 +1,52 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	scout(scout)
+	analyst(analyst)
+	risk_assessor(risk_assessor)
+	fit_matcher(fit_matcher)
+	decision(decision)
+	pricing(pricing)
+	writer(writer)
+	verifier(verifier)
+	critic(critic)
+	compliance(compliance)
+	submit(submit)
+	approval(approval)
+	not_worth(not_worth)
+	needs_attention(needs_attention)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> scout;
+	analyst --> decision;
+	approval -.-> __end__;
+	approval -.-> compliance;
+	approval -.-> submit;
+	compliance -.-> __end__;
+	compliance -.-> approval;
+	critic -.-> __end__;
+	critic -.-> compliance;
+	critic -.-> needs_attention;
+	critic -.-> writer;
+	decision -.-> __end__;
+	decision -.-> pricing;
+	fit_matcher --> decision;
+	pricing -.-> __end__;
+	pricing -.-> not_worth;
+	pricing -.-> writer;
+	risk_assessor --> decision;
+	scout -.-> __end__;
+	scout -.-> analyst;
+	scout -.-> fit_matcher;
+	scout -.-> risk_assessor;
+	verifier --> critic;
+	writer --> verifier;
+	needs_attention --> __end__;
+	not_worth --> __end__;
+	submit --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

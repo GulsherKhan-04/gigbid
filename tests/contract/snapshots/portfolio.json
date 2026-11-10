@@ -1,0 +1,343 @@
+{
+ "get_case_study": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": false,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "id": {
+     "title": "Id",
+     "type": "string"
+    },
+    "persona": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Persona"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "title": "get_case_studyArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "date": {
+     "default": "",
+     "title": "Date",
+     "type": "string"
+    },
+    "evidence_id": {
+     "title": "Evidence Id",
+     "type": "string"
+    },
+    "outcome": {
+     "default": "",
+     "title": "Outcome",
+     "type": "string"
+    },
+    "project": {
+     "default": "",
+     "title": "Project",
+     "type": "string"
+    },
+    "score": {
+     "default": 0.0,
+     "title": "Score",
+     "type": "number"
+    },
+    "skills": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Skills",
+     "type": "array"
+    },
+    "source": {
+     "title": "Source",
+     "type": "string"
+    },
+    "text": {
+     "title": "Text",
+     "type": "string"
+    },
+    "title": {
+     "default": "",
+     "title": "Title",
+     "type": "string"
+    },
+    "type": {
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "evidence_id",
+    "type",
+    "source",
+    "text"
+   ],
+   "title": "EvidenceItem",
+   "type": "object"
+  }
+ },
+ "list_skills": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": false,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "persona": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Persona"
+    }
+   },
+   "title": "list_skillsArguments",
+   "type": "object"
+  },
+  "output": {
+   "additionalProperties": {
+    "type": "integer"
+   },
+   "title": "list_skillsDictOutput",
+   "type": "object"
+  }
+ },
+ "search_evidence": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": true,
+   "openWorldHint": false,
+   "readOnlyHint": true
+  },
+  "input": {
+   "$defs": {
+    "Filters": {
+     "properties": {
+      "client_industry": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Client Industry"
+      },
+      "outcome": {
+       "anyOf": [
+        {
+         "enum": [
+          "won",
+          "replied",
+          "ignored"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Outcome"
+      },
+      "type": {
+       "anyOf": [
+        {
+         "enum": [
+          "case_study",
+          "readme",
+          "code",
+          "cv",
+          "proposal",
+          "review"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": null,
+       "title": "Type"
+      }
+     },
+     "title": "Filters",
+     "type": "object"
+    }
+   },
+   "properties": {
+    "filters": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Filters"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null
+    },
+    "k": {
+     "default": 5,
+     "maximum": 20,
+     "minimum": 1,
+     "title": "K",
+     "type": "integer"
+    },
+    "persona": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Persona"
+    },
+    "requirement": {
+     "maxLength": 500,
+     "minLength": 3,
+     "title": "Requirement",
+     "type": "string"
+    },
+    "requirements": {
+     "anyOf": [
+      {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Requirements"
+    },
+    "variant": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Variant"
+    }
+   },
+   "required": [
+    "requirement"
+   ],
+   "title": "search_evidenceArguments",
+   "type": "object"
+  },
+  "output": {
+   "$defs": {
+    "EvidenceItem": {
+     "properties": {
+      "date": {
+       "default": "",
+       "title": "Date",
+       "type": "string"
+      },
+      "evidence_id": {
+       "title": "Evidence Id",
+       "type": "string"
+      },
+      "outcome": {
+       "default": "",
+       "title": "Outcome",
+       "type": "string"
+      },
+      "project": {
+       "default": "",
+       "title": "Project",
+       "type": "string"
+      },
+      "score": {
+       "default": 0.0,
+       "title": "Score",
+       "type": "number"
+      },
+      "skills": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Skills",
+       "type": "array"
+      },
+      "source": {
+       "title": "Source",
+       "type": "string"
+      },
+      "text": {
+       "title": "Text",
+       "type": "string"
+      },
+      "title": {
+       "default": "",
+       "title": "Title",
+       "type": "string"
+      },
+      "type": {
+       "title": "Type",
+       "type": "string"
+      }
+     },
+     "required": [
+      "evidence_id",
+      "type",
+      "source",
+      "text"
+     ],
+     "title": "EvidenceItem",
+     "type": "object"
+    }
+   },
+   "properties": {
+    "result": {
+     "items": {
+      "$ref": "#/$defs/EvidenceItem"
+     },
+     "title": "Result",
+     "type": "array"
+    }
+   },
+   "required": [
+    "result"
+   ],
+   "title": "search_evidenceOutput",
+   "type": "object"
+  }
+ }
+}

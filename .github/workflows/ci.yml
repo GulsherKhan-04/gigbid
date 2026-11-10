@@ -1,0 +1,29 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env: { EMBEDDINGS_PROVIDER: hash, MARKETPLACE_BACKEND: fixtures }
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: No secrets committed
+        run: |
+          ! git ls-files | grep -E '(^|/)\.env$'
+          ! git grep -nE '(gsk_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|lsv2_[A-Za-z0-9_]{20,})' -- . ':!*.lock' ':!*package-lock.json'
+      - name: gigsim/ unchanged
+        if: github.event_name == 'pull_request'
+        run: git diff --quiet origin/${{ github.base_ref }} -- gigsim/
+      - name: Every prompt lives in agent/prompts
+        run: "! grep -rnE 'You are (the|a) ' --include=*.py agent/nodes agent/graphs"
+      - run: pip install -e ".[dev]" && ruff check . --select E9,F63,F7,F82
+      - run: pytest -q
+      - run: cd apps/web && npm ci && npx tsc -p . && npm run build && npx playwright install --with-deps chromium
+      - run: cd apps/web && npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: playwright-report, path: apps/web/playwright-report }

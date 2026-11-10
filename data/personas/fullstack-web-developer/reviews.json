@@ -1,0 +1,89 @@
+[
+ {
+  "id": "ful-rev-0",
+  "project": "TypeScript dashboard for a healthcare client",
+  "text": "Great work on the typescript dashboard for a healthcare client; clear communication and on time.",
+  "skills": [
+   "TypeScript",
+   "Tailwind",
+   "Redis",
+   "Celery"
+  ],
+  "client_industry": "healthcare"
+ },
+ {
+  "id": "ful-rev-1",
+  "project": "AWS tool for a SaaS client",
+  "text": "Great work on the aws tool for a saas client; clear communication and on time.",
+  "skills": [
+   "AWS",
+   "TypeScript",
+   "Django"
+  ],
+  "client_industry": "SaaS"
+ },
+ {
+  "id": "ful-rev-2",
+  "project": "Celery tool for a e-commerce client",
+  "text": "Great work on the celery tool for a e-commerce client; clear communication and on time.",
+  "skills": [
+   "Celery",
+   "AWS"
+  ],
+  "client_industry": "e-commerce"
+ },
+ {
+  "id": "ful-rev-3",
+  "project": "Next.js service for a logistics client",
+  "text": "Great work on the next.js service for a logistics client; clear communication and on time.",
+  "skills": [
+   "Next.js",
+   "TypeScript",
+   "GraphQL"
+  ],
+  "client_industry": "logistics"
+ },
+ {
+  "id": "ful-rev-4",
+  "project": "Node.js service for a e-commerce client",
+  "text": "Great work on the node.js service for a e-commerce client; clear communication and on time.",
+  "skills": [
+   "Node.js",
+   "AWS",
+   "TypeScript"
+  ],
+  "client_industry": "e-commerce"
+ },
+ {
+  "id": "ful-rev-5",
+  "project": "Tailwind tool for a education client",
+  "text": "Great work on the tailwind tool for a education client; clear communication and on time.",
+  "skills": [
+   "Tailwind",
+   "Celery",
+   "Node.js"
+  ],
+  "client_industry": "education"
+ },
+ {
+  "id": "ful-rev-6",
+  "project": "TypeScript service for a SaaS client",
+  "text": "Great work on the typescript service for a saas client; clear communication and on time.",
+  "skills": [
+   "TypeScript",
+   "AWS"
+  ],
+  "client_industry": "SaaS"
+ },
+ {
+  "id": "ful-rev-7",
+  "project": "Node.js tool for a education client",
+  "text": "Great work on the node.js tool for a education client; clear communication and on time.",
+  "skills": [
+   "Node.js",
+   "Stripe",
+   "Celery"
+  ],
+  "client_industry": "education"
+ }
+]

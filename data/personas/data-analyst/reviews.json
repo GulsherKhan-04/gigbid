@@ -1,0 +1,89 @@
+[
+ {
+  "id": "dat-rev-0",
+  "project": "pandas platform for a healthcare client",
+  "text": "Great work on the pandas platform for a healthcare client; clear communication and on time.",
+  "skills": [
+   "pandas",
+   "Python",
+   "statistics",
+   "dbt"
+  ],
+  "client_industry": "healthcare"
+ },
+ {
+  "id": "dat-rev-1",
+  "project": "Airflow service for a fintech client",
+  "text": "Great work on the airflow service for a fintech client; clear communication and on time.",
+  "skills": [
+   "Airflow",
+   "SQL"
+  ],
+  "client_industry": "fintech"
+ },
+ {
+  "id": "dat-rev-2",
+  "project": "Excel dashboard for a healthcare client",
+  "text": "Great work on the excel dashboard for a healthcare client; clear communication and on time.",
+  "skills": [
+   "Excel",
+   "Airflow",
+   "statistics",
+   "A/B testing"
+  ],
+  "client_industry": "healthcare"
+ },
+ {
+  "id": "dat-rev-3",
+  "project": "Looker pipeline for a fintech client",
+  "text": "Great work on the looker pipeline for a fintech client; clear communication and on time.",
+  "skills": [
+   "Looker",
+   "A/B testing",
+   "Excel"
+  ],
+  "client_industry": "fintech"
+ },
+ {
+  "id": "dat-rev-4",
+  "project": "Power BI pipeline for a e-commerce client",
+  "text": "Great work on the power bi pipeline for a e-commerce client; clear communication and on time.",
+  "skills": [
+   "Power BI",
+   "Looker"
+  ],
+  "client_industry": "e-commerce"
+ },
+ {
+  "id": "dat-rev-5",
+  "project": "statistics platform for a real estate client",
+  "text": "Great work on the statistics platform for a real estate client; clear communication and on time.",
+  "skills": [
+   "statistics",
+   "SQL"
+  ],
+  "client_industry": "real estate"
+ },
+ {
+  "id": "dat-rev-6",
+  "project": "SQL pipeline for a real estate client",
+  "text": "Great work on the sql pipeline for a real estate client; clear communication and on time.",
+  "skills": [
+   "SQL",
+   "BigQuery",
+   "Tableau",
+   "Power BI"
+  ],
+  "client_industry": "real estate"
+ },
+ {
+  "id": "dat-rev-7",
+  "project": "Python pipeline for a healthcare client",
+  "text": "Great work on the python pipeline for a healthcare client; clear communication and on time.",
+  "skills": [
+   "Python",
+   "dbt"
+  ],
+  "client_industry": "healthcare"
+ }
+]

@@ -1,0 +1,109 @@
+{
+ "create_email_draft": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": false,
+   "readOnlyHint": false
+  },
+  "input": {
+   "properties": {
+    "body": {
+     "maxLength": 5000,
+     "title": "Body",
+     "type": "string"
+    },
+    "subject": {
+     "maxLength": 200,
+     "title": "Subject",
+     "type": "string"
+    },
+    "to": {
+     "title": "To",
+     "type": "string"
+    }
+   },
+   "required": [
+    "to",
+    "subject",
+    "body"
+   ],
+   "title": "create_email_draftArguments",
+   "type": "object"
+  },
+  "output": null
+ },
+ "create_hold": {
+  "annotations": {
+   "destructiveHint": false,
+   "idempotentHint": false,
+   "readOnlyHint": false
+  },
+  "input": {
+   "properties": {
+    "start": {
+     "title": "Start",
+     "type": "string"
+    },
+    "title": {
+     "maxLength": 200,
+     "title": "Title",
+     "type": "string"
+    }
+   },
+   "required": [
+    "start",
+    "title"
+   ],
+   "title": "create_holdArguments",
+   "type": "object"
+  },
+  "output": null
+ },
+ "free_slots": {
+  "annotations": {
+   "idempotentHint": true,
+   "readOnlyHint": true
+  },
+  "input": {
+   "properties": {
+    "days": {
+     "default": 5,
+     "maximum": 14,
+     "minimum": 1,
+     "title": "Days",
+     "type": "integer"
+    },
+    "duration_minutes": {
+     "default": 30,
+     "maximum": 120,
+     "minimum": 15,
+     "title": "Duration Minutes",
+     "type": "integer"
+    },
+    "tz": {
+     "default": "Asia/Karachi",
+     "title": "Tz",
+     "type": "string"
+    }
+   },
+   "title": "free_slotsArguments",
+   "type": "object"
+  },
+  "output": {
+   "properties": {
+    "result": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Result",
+     "type": "array"
+    }
+   },
+   "required": [
+    "result"
+   ],
+   "title": "free_slotsOutput",
+   "type": "object"
+  }
+ }
+}

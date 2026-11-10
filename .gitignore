@@ -1,0 +1,14 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+data/processed/
+data/hidden*/
+evals/datasets/hidden*/
+apps/web/node_modules/
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
+.pytest_cache/
+*.db
