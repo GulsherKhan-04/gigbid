@@ -58,7 +58,7 @@ async def test_against_simulator(sim):
     jobs = json.loads((ROOT / "simulator/data/jobs_live.json").read_text())
     scam = next(j for j in jobs if "unpaid_work" in j["warning_signals"])
     good = next(j for j in jobs if not j["warning_signals"] and j["persona_hint"] == "ai-ml-engineer"
-                and "Ignore" not in j["description"])
+                and "+synthetic-injection" not in j.get("source", "") and len(j["required_skills"]) >= 2)
     g = build_bid_graph(InMemorySaver(), InMemoryStore())
     s = await g.ainvoke({"user_id": "t", "persona": "ai-ml-engineer", "profile": {}, "job": {"job_id": scam["job_id"]}},
                         {"configurable": {"thread_id": str(uuid.uuid4())}})
