@@ -42,6 +42,10 @@ class LLM:
         return round(prompt_tokens / 1e6 * p["input"] + completion_tokens / 1e6 * p["output"], 6)
 
     async def _chat(self, model: str, messages: list[dict], json_mode: bool) -> dict:
+        async with _gate():          # cap simultaneous calls so parallel branches stay under per-minute limits
+            return await self._chat_once(model, messages, json_mode)
+
+    async def _chat_once(self, model: str, messages: list[dict], json_mode: bool) -> dict:
         if not self.base_url:
             raise LLMError(f"{self.profile['base_url_env']} is empty: fill it in .env")
         body: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.2}
@@ -56,6 +60,8 @@ class LLM:
             if m:
                 wait = max(wait, float(m.group(1)) / (1000 if m.group(2) == "ms" else 1))
             raise LLMError(f"retryable {r.status_code} wait={min(wait, 60):.2f}: {r.text[:200]}")
+        if r.status_code == 400 and json_mode and "json_validate_failed" in r.text:
+            return await self._chat_once(model, messages, json_mode=False)   # parse JSON from plain text instead
         if r.status_code >= 400:
             raise LLMError(f"{r.status_code}: {r.text[:300]}")
         return r.json()
@@ -114,6 +120,18 @@ def _extract_json(text: str) -> Any:
 async def _sleep(seconds: float) -> None:
     import asyncio
     await asyncio.sleep(seconds)
+
+
+_sem = None
+
+
+def _gate():
+    import asyncio
+    import os
+    global _sem
+    if _sem is None:
+        _sem = asyncio.Semaphore(int(os.getenv("LLM_MAX_CONCURRENCY") or 2))
+    return _sem
 
 
 _llm: LLM | None = None

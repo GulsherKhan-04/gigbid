@@ -50,11 +50,13 @@ def quote(job: dict, spec: dict, profile: dict, balance: int) -> PriceQuote:
         amount, basis = floor, "the freelancer's floor (no budget or market data)"
     amount = max(amount, floor)
     cost = int(job.get("connects_cost", 0))
-    ev = amount * 0.1                                 # crude expected value: ~10% win probability
+    hourly = (job.get("budget_type") or (job.get("budget") or {}).get("type")) == "hourly"
+    value = amount * pol.get("hourly_estimated_hours", 40) if hourly else amount
+    ev = value * pol.get("win_probability", 0.1)      # expected value of bidding
     worth = cost == 0 or (ev / max(cost, 1) >= pol["min_expected_value_per_connect_usd"] and cost <= balance)
     why = (f"{basis}; floor {floor:.0f}. Connects {cost} of {balance} left; expected value per Connect "
            f"${ev / max(cost, 1):.2f} vs minimum ${pol['min_expected_value_per_connect_usd']:.2f}.")
-    return PriceQuote(amount_usd=round(amount, 2), rate_type="hourly" if job.get("budget_type") == "hourly" else "fixed",
+    return PriceQuote(amount_usd=round(amount, 2), rate_type="hourly" if hourly else "fixed",
                       connects_cost=cost, worth_connects=worth, rationale=why)
 
 

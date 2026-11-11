@@ -23,7 +23,11 @@ def decide(risk: dict, fit: dict) -> BidDecision:
 
 
 async def decision_node(state):
+    flags = set((state.get("risk_report") or {}).get("flags", []))
     if state.get("status") in {"dead_letter", "marketplace_unavailable"}:
+        if flags & {"scam", "free_work", "off_platform"}:     # risk alone is enough to skip safely
+            d = decide(state["risk_report"], {"score": 0})
+            return update("decision", decision=d.model_dump(), status="skipped")
         return {"steps": 1}
     d = decide(state.get("risk_report", {}), state.get("fit_report", {}))
     status = "analysing" if d.action == "bid" else ("skipped" if d.action == "skip" else "watching")

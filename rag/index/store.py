@@ -29,7 +29,11 @@ class PortfolioIndex:
     # ---- persistence ----
     @staticmethod
     def path(persona: str) -> Path:
-        return ROOT / "data" / "processed" / persona
+        # one index per embedding provider, so vectors of different sizes never mix
+        import os
+        from agent.settings import config
+        provider = os.getenv("EMBEDDINGS_PROVIDER") or config()["embeddings"]["provider"]
+        return ROOT / "data" / "processed" / provider / persona
 
     def save(self) -> None:
         p = self.path(self.persona)

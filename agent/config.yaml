@@ -83,6 +83,8 @@ policy:
   connects:
     weekly_budget_default: 80
     min_expected_value_per_connect_usd: 2.0
+    hourly_estimated_hours: 40      # project value for hourly jobs = rate x these hours
+    win_probability: 0.1
   banned_phrases: ["guarantee", "guaranteed", "100% satisfaction", "whatsapp", "telegram", "skype",
                    "pay me directly", "outside upwork", "off-platform"]
   max_proposal_words: 320
