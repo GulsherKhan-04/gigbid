@@ -1,160 +1,160 @@
 {
-  "generated_at": "2026-11-10T14:14:46",
+  "generated_at": "2026-11-11T04:14:32",
   "variants": {
     "v0_naive": {
-      "n": 395,
-      "recall5": 0.2137,
-      "mrr": 0.8816,
-      "ndcg10": 0.5287,
-      "p50_s": 0.079,
-      "p95_s": 0.102,
+      "n": 393,
+      "recall5": 0.1032,
+      "mrr": 0.3526,
+      "ndcg10": 0.216,
+      "p50_s": 0.133,
+      "p95_s": 0.292,
       "by_persona": {
         "ai-ml-engineer": {
-          "recall5": 0.201,
-          "ndcg10": 0.4573
+          "recall5": 0.1224,
+          "ndcg10": 0.197
         },
         "data-analyst": {
-          "recall5": 0.2321,
-          "ndcg10": 0.5662
+          "recall5": 0.0852,
+          "ndcg10": 0.2143
         },
         "fullstack-web-developer": {
-          "recall5": 0.2079,
-          "ndcg10": 0.5706
+          "recall5": 0.1031,
+          "ndcg10": 0.2359
         }
       },
       "by_job_type": {
         "data-analysis": {
-          "recall5": 0.2321,
-          "ndcg10": 0.5662
+          "recall5": 0.0852,
+          "ndcg10": 0.2143
         },
         "ml": {
-          "recall5": 0.201,
-          "ndcg10": 0.4573
+          "recall5": 0.1224,
+          "ndcg10": 0.197
         },
         "web": {
-          "recall5": 0.2079,
-          "ndcg10": 0.5706
+          "recall5": 0.1031,
+          "ndcg10": 0.2359
         }
       },
       "four_plus_requirements": {
-        "recall5": 0.2137
+        "recall5": 0.1055
       }
     },
     "v1_decompose": {
-      "n": 395,
-      "recall5": 0.0973,
-      "mrr": 0.506,
-      "ndcg10": 0.2763,
-      "p50_s": 0.177,
-      "p95_s": 0.209,
+      "n": 393,
+      "recall5": 0.0577,
+      "mrr": 0.1879,
+      "ndcg10": 0.1195,
+      "p50_s": 0.028,
+      "p95_s": 0.06,
       "by_persona": {
         "ai-ml-engineer": {
-          "recall5": 0.1021,
-          "ndcg10": 0.2651
+          "recall5": 0.0589,
+          "ndcg10": 0.1236
         },
         "data-analyst": {
-          "recall5": 0.1262,
-          "ndcg10": 0.3503
+          "recall5": 0.0489,
+          "ndcg10": 0.1169
         },
         "fullstack-web-developer": {
-          "recall5": 0.0587,
-          "ndcg10": 0.2054
+          "recall5": 0.0656,
+          "ndcg10": 0.1182
         }
       },
       "by_job_type": {
         "data-analysis": {
-          "recall5": 0.1262,
-          "ndcg10": 0.3503
+          "recall5": 0.0489,
+          "ndcg10": 0.1169
         },
         "ml": {
-          "recall5": 0.1021,
-          "ndcg10": 0.2651
+          "recall5": 0.0589,
+          "ndcg10": 0.1236
         },
         "web": {
-          "recall5": 0.0587,
-          "ndcg10": 0.2054
+          "recall5": 0.0656,
+          "ndcg10": 0.1182
         }
       },
       "four_plus_requirements": {
-        "recall5": 0.0973
+        "recall5": 0.0398
       }
     },
     "v2_hybrid": {
-      "n": 395,
-      "recall5": 0.0783,
-      "mrr": 0.4238,
-      "ndcg10": 0.2148,
-      "p50_s": 0.189,
-      "p95_s": 0.224,
+      "n": 393,
+      "recall5": 0.1524,
+      "mrr": 0.4079,
+      "ndcg10": 0.2594,
+      "p50_s": 0.033,
+      "p95_s": 0.069,
       "by_persona": {
         "ai-ml-engineer": {
-          "recall5": 0.078,
-          "ndcg10": 0.2019
+          "recall5": 0.2606,
+          "ndcg10": 0.3306
         },
         "data-analyst": {
-          "recall5": 0.0911,
-          "ndcg10": 0.2437
+          "recall5": 0.1028,
+          "ndcg10": 0.2463
         },
         "fullstack-web-developer": {
-          "recall5": 0.0641,
-          "ndcg10": 0.1972
+          "recall5": 0.1,
+          "ndcg10": 0.2049
         }
       },
       "by_job_type": {
         "data-analysis": {
-          "recall5": 0.0911,
-          "ndcg10": 0.2437
+          "recall5": 0.1028,
+          "ndcg10": 0.2463
         },
         "ml": {
-          "recall5": 0.078,
-          "ndcg10": 0.2019
+          "recall5": 0.2606,
+          "ndcg10": 0.3306
         },
         "web": {
-          "recall5": 0.0641,
-          "ndcg10": 0.1972
+          "recall5": 0.1,
+          "ndcg10": 0.2049
         }
       },
       "four_plus_requirements": {
-        "recall5": 0.0783
+        "recall5": 0.0911
       }
     },
     "v4_outcome": {
-      "n": 395,
-      "recall5": 0.006,
-      "mrr": 0.0535,
-      "ndcg10": 0.0293,
-      "p50_s": 0.179,
-      "p95_s": 0.216,
+      "n": 393,
+      "recall5": 0.0304,
+      "mrr": 0.0905,
+      "ndcg10": 0.0895,
+      "p50_s": 0.033,
+      "p95_s": 0.067,
       "by_persona": {
         "ai-ml-engineer": {
-          "recall5": 0.0055,
-          "ndcg10": 0.0272
+          "recall5": 0.045,
+          "ndcg10": 0.1245
         },
         "data-analyst": {
-          "recall5": 0.01,
-          "ndcg10": 0.0432
+          "recall5": 0.0199,
+          "ndcg10": 0.078
         },
         "fullstack-web-developer": {
-          "recall5": 0.0022,
-          "ndcg10": 0.0161
+          "recall5": 0.0272,
+          "ndcg10": 0.0677
         }
       },
       "by_job_type": {
         "data-analysis": {
-          "recall5": 0.01,
-          "ndcg10": 0.0432
+          "recall5": 0.0199,
+          "ndcg10": 0.078
         },
         "ml": {
-          "recall5": 0.0055,
-          "ndcg10": 0.0272
+          "recall5": 0.045,
+          "ndcg10": 0.1245
         },
         "web": {
-          "recall5": 0.0022,
-          "ndcg10": 0.0161
+          "recall5": 0.0272,
+          "ndcg10": 0.0677
         }
       },
       "four_plus_requirements": {
-        "recall5": 0.006
+        "recall5": 0.0283
       }
     }
   },

@@ -37,22 +37,22 @@ No key yet? `python -m tests.demo_server` runs the whole app with a scripted mod
 ## Tests
 `pytest -q` (unit, MCP, contract, graph, crash-and-resume) · `cd apps/web && npx playwright test` (5 UI flows)
 
-## Results (GigSim-lite substitute dev set, not the instructor's)
-The instructor's GigSim and dev set were not in the starter kit, so these come from the student-built stand-in
-(`simulator/`, labels from written rules in `simulator/generate.py`). Embeddings: bge-small via fastembed (CPU).
+## Results
+Dev set: 600 jobs, about 80% **real** Upwork postings (Kaggle, 2024) and 20% **synthetic** scam/injection posts;
+portfolios, clients and replies are synthetic (see [docs/DATA_CARD.md](docs/DATA_CARD.md)). Labels are rule-based.
+Embeddings: bge-small (open model, CPU, via fastembed).
 
 | Variant | Evidence Recall@5 | nDCG@10 | MRR |
 |---|---|---|---|
-| v0_naive | 0.2137 | 0.5287 | 0.8816 |
-| v1_decompose | 0.0973 | 0.2763 | 0.506 |
-| v2_hybrid | 0.0783 | 0.2148 | 0.4238 |
-| v4_outcome | 0.006 | 0.0293 | 0.0535 |
+| v0_naive | 0.1032 | 0.216 | 0.3526 |
+| v1_decompose | 0.0577 | 0.1195 | 0.1879 |
+| v2_hybrid | 0.1524 | 0.2594 | 0.4079 |
+| v4_outcome | 0.0304 | 0.0895 | 0.0905 |
 
-Source: `evals/results/rag_retrieval.json` (600 jobs). **Finding:** the naive baseline wins here. Per-requirement
-and BM25 retrieval pull in past proposals that name the same skills, crowding out the case studies that count as
-proof; outcome-aware boosting makes that worse. Next experiment: restrict proof retrieval to case studies, repos and code.
+Source: `evals/results/rag_retrieval.json`. **Finding:** hybrid BM25 + dense (V2) wins on real postings, which name
+exact tools; per-requirement decomposition and outcome boosting pull in past proposals instead of proof.
+Shipped: `v2_hybrid` (`agent/config.yaml`). On an earlier fully synthetic dev set the naive baseline won, which shows
+how much the result depends on the data.
 
-Bid graph with the real open models (Groq gpt-oss-20b/120b), **8 dev jobs only** (`evals/results/decisions_real_smoke.json`):
-bid/skip F1 0.8571, price in fair band 0.6667, unsupported claims before verification
-0.1111, p95 53.838 s per job, $0.004 per proposal.
-No scam happened to be in this sample. Too small to conclude; run more on later days (free tier: 200k tokens/day).
+TODO (run on separate days, free Groq tier is about 200k tokens/day):
+`decision_eval --limit 20 --name dev`, `multiagent_compare --limit 20`, `tool_granularity`, judge calibration.
