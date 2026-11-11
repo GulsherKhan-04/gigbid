@@ -87,8 +87,8 @@ policy:
     win_probability: 0.1
   banned_phrases: ["guarantee", "guaranteed", "100% satisfaction", "whatsapp", "telegram", "skype",
                    "pay me directly", "outside upwork", "off-platform"]
-  max_proposal_words: 320
-  extra_rules: []             # e.g. "Proposals to clients without payment verification cost 2 extra Connects"
+  max_proposal_words: 250
+  extra_rules: ["Proposals to clients without verified payment cost 2 extra Connects"]
 
 experiments:                 # X2: proposal A/B test. Strategy = which writer prompt file is used
   proposal_ab:
