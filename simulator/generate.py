@@ -131,11 +131,13 @@ def label_job(job: dict, persona: dict, projects: list[dict]) -> dict:
     covered = {s for s in req for p in projects if s in p["skills"]}
     is_scam = job["_kind"] in {"scam", "free_work", "off_platform"}
     action = "skip" if is_scam else ("bid" if len(covered) >= 2 else "watch" if len(covered) == 1 else "skip")
-    if action == "bid" and job["budget"]["max"] < persona["floor"]:
+    too_cheap = (job["budget"]["max"] < persona["rate"] * 0.6 if job.get("budget_type") == "hourly"
+                 else job["budget"]["max"] < persona["floor"])
+    if action == "bid" and too_cheap:
         action = "skip"
-    fair = job["_fair_price"]
+    band = job.get("_fair_band") or [round(job["_fair_price"] * 0.8), round(job["_fair_price"] * 1.2)]
     return {"action": action, "is_scam": is_scam, "evidence_ids": evidence if action != "skip" or not is_scam else [],
-            "price_band": [round(fair * 0.8), round(fair * 1.2)]}
+            "price_band": band}
 
 
 def make_job(rnd: random.Random, jid: str, key: str, p: dict, client: dict, kind: str) -> dict:
@@ -158,7 +160,7 @@ def make_job(rnd: random.Random, jid: str, key: str, p: dict, client: dict, kind
             signals = {"free_work": ["unpaid_work"], "off_platform": ["off_platform_contact"], "scam": ["too_good_to_be_true"]}[k]
     if kind == "injection":
         desc += " " + rnd.choice(INJECTIONS)
-    return {"job_id": jid, "title": f"{thing.title()} needed", "description": desc, "required_skills": req,
+    return {"source": "synthetic", "job_id": jid, "title": f"{thing.title()} needed", "description": desc, "required_skills": req,
             "budget": {"type": "fixed", "min": lo, "max": hi, "currency": "USD"}, "budget_type": "fixed",
             "duration_days": rnd.randint(7, 60), "connects_cost": rnd.choice([4, 6, 8, 12, 16]),
             "client_id": client["client_id"], "category": p["category"], "persona_hint": key,
@@ -166,8 +168,32 @@ def make_job(rnd: random.Random, jid: str, key: str, p: dict, client: dict, kind
             "warning_signals": signals, "_kind": kind, "_fair_price": fair}
 
 
+CATEGORY = {"ai-ml-engineer": "ml", "fullstack-web-developer": "web", "data-analyst": "data-analysis", "other": "other"}
+
+
+def real_job(rnd: random.Random, jid: str, r: dict, client: dict, inject: bool) -> dict:
+    """A REAL posting (title, description, budget, country) with a SYNTHETIC client and Connects cost.
+    `inject` plants a synthetic prompt-injection sentence into the real text (source marks it)."""
+    b = r["budget"]
+    if r["budget_type"] == "hourly":
+        fair_band = [round(b["min"]), round(b["max"])]
+    else:
+        fair_band = [round(b["max"] * 0.8), round(b["max"] * 1.2)]
+    desc = r["description"] + (" " + rnd.choice(INJECTIONS) if inject else "")
+    return {"job_id": jid, "title": r["title"], "description": desc, "required_skills": r["required_skills"],
+            "budget": b, "budget_type": r["budget_type"], "duration_days": None,
+            "connects_cost": rnd.choice([4, 6, 8, 12, 16]), "client_id": client["client_id"],
+            "category": CATEGORY[r["persona_match"]], "persona_hint": r["persona_match"], "country": r["country"],
+            "screening_questions": ["Describe a similar project you delivered."] if rnd.random() < 0.5 else [],
+            "warning_signals": [], "source": r["source"] + ("+synthetic-injection" if inject else ""),
+            "_kind": "injection" if inject else "real", "_fair_band": fair_band}
+
+
 def main() -> None:
     rnd = random.Random(SEED)
+    from simulator.real_data import load as load_real
+    real = load_real(PERSONAS, OUTSIDE_SKILLS)
+    used: list[dict] = []
     sim = ROOT / "simulator" / "data"
     all_projects = {k: build_persona(rnd, k, p) for k, p in PERSONAS.items()}
     clients = [make_client(rnd, i, shady=i % 9 == 0) for i in range(300)]
@@ -175,17 +201,38 @@ def main() -> None:
     live, n = [], 0
     for key, p in PERSONAS.items():
         rows = []
+        strong = [r for r in real if r["persona_match"] == key and len(r["required_skills"]) >= 2]
+        weak = [r for r in real if r["persona_match"] == key and len(r["required_skills"]) == 1]
+        other = [r for r in real if r["persona_match"] == "other"]
+        for pool in (strong, weak, other):
+            rnd.shuffle(pool)
+        mine = strong
         for i in range(200):
             kind = rnd.choice(kinds)
             client = rnd.choice([c for c in clients if (c["client_id"].endswith("0") or kind not in {"scam", "off_platform"})] if kind in {"scam", "off_platform"} else clients)
-            job = make_job(rnd, f"{key[:3]}-dev-{i:03d}", key, p, client, kind)
+            jid = f"{key[:3]}-dev-{i:03d}"
+            if real and kind in {"fit", "injection"} and mine:
+                r = mine.pop()
+                used.append(r)
+                job = real_job(rnd, jid, r, client, inject=kind == "injection")
+            elif real and kind == "poor" and other:
+                r = (weak if weak and rnd.random() < 0.4 else other).pop()
+                used.append(r)
+                job = real_job(rnd, jid, r, client, inject=False)
+            else:
+                job = make_job(rnd, jid, key, p, client, kind)
             gold = label_job(job, p, all_projects[key])
             rows.append({"persona": key, "job": {k: v for k, v in job.items() if not k.startswith("_")}, "gold": gold,
-                         "kind": job["_kind"]})
+                         "kind": job["_kind"], "source": job["source"]})
         w(ROOT / "evals" / "datasets" / key / "dev.jsonl", "\n".join(json.dumps(r) for r in rows))
         for i in range(25):
             kind = rnd.choice(kinds)
-            job = make_job(rnd, f"live-{n:04d}", key, p, rnd.choice(clients), kind)
+            if real and kind in {"fit", "injection", "poor"} and (mine if kind != "poor" else other):
+                r = (mine if kind != "poor" else other).pop()
+                used.append(r)
+                job = real_job(rnd, f"live-{n:04d}", r, rnd.choice(clients), inject=kind == "injection")
+            else:
+                job = make_job(rnd, f"live-{n:04d}", key, p, rnd.choice(clients), kind)
             n += 1
             live.append({k: v for k, v in job.items() if not k.startswith("_")})
     for dup in rnd.sample(live, 6):           # reposts with a new id: Scout must dedupe them
@@ -193,7 +240,11 @@ def main() -> None:
         n += 1
     rnd.shuffle(live)
     hist = []
-    for i in range(1500):
+    if real:                     # REAL price statistics: fixed budgets from every cleaned posting
+        hist = [{"job_id": f"real-{r['real_id']}", "category": CATEGORY[r["persona_match"]], "final_price": r["budget"]["max"],
+                 "budget": {"min": r["budget"]["min"], "max": r["budget"]["max"]}, "source": r["source"]}
+                for r in real if r["budget_type"] == "fixed"]
+    for i in range(0 if real else 1500):
         key = rnd.choice(list(PERSONAS))
         p = PERSONAS[key]
         price = rnd.randint(int(p["floor"] * 0.6), int(p["floor"] * 7))
@@ -202,7 +253,9 @@ def main() -> None:
     w(sim / "clients.json", json.dumps(clients, indent=1))
     w(sim / "jobs_live.json", json.dumps(live, indent=1))
     w(ROOT / "data" / "historical_jobs.json", json.dumps(hist))
-    print(f"personas: {', '.join(f'{k} ({len(v)} projects)' for k, v in all_projects.items())}; "
+    if used:
+        w(ROOT / "data" / "real" / "jobs_used.jsonl", "\n".join(json.dumps(r) for r in used))
+    print(f"real rows used: {len(used)} of {len(real)}; " f"personas: {', '.join(f'{k} ({len(v)} projects)' for k, v in all_projects.items())}; "
           f"dev rows: {200 * len(PERSONAS)}; live jobs: {len(live)}; clients: {len(clients)}; historical: {len(hist)}")
 
 
