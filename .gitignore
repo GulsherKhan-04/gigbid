@@ -12,3 +12,4 @@ apps/web/test-results/
 apps/web/playwright-report/
 .pytest_cache/
 *.db
+data/raw/
