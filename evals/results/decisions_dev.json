@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-11-11T05:20:21",
+  "summary": {
+    "n": 6,
+    "bid_skip_f1": 0.5,
+    "scam_precision": null,
+    "scam_recall": null,
+    "price_in_band": 1.0,
+    "unsupported_rate_before_verification": 0.0,
+    "p50_s_per_job": 33.848,
+    "p95_s_per_job": 53.97,
+    "usd_per_job": 0.002,
+    "usd_per_proposal": 0.0039,
+    "dead_letter": 0
+  },
+  "rows": [
+    {
+      "gold": "skip",
+      "pred": "skip",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": null,
+      "unsupported_before": null,
+      "unsupported_after": null,
+      "drafted": false,
+      "seconds": 3.187677497000001,
+      "usd": 0.001008,
+      "status": "skipped",
+      "persona": "ai-ml-engineer",
+      "job_type": "other"
+    },
+    {
+      "gold": "watch",
+      "pred": "bid",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": true,
+      "unsupported_before": 0.0,
+      "unsupported_after": 0.0,
+      "drafted": true,
+      "seconds": 53.969664044999995,
+      "usd": 0.003282,
+      "status": "awaiting_approval",
+      "persona": "ai-ml-engineer",
+      "job_type": "ml"
+    },
+    {
+      "gold": "watch",
+      "pred": "skip",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": null,
+      "unsupported_before": null,
+      "unsupported_after": null,
+      "drafted": false,
+      "seconds": 34.788046832999996,
+      "usd": 0.001072,
+      "status": "skipped",
+      "persona": "ai-ml-engineer",
+      "job_type": "ml"
+    },
+    {
+      "gold": "bid",
+      "pred": "bid",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": true,
+      "unsupported_before": 0.0,
+      "unsupported_after": 0.0,
+      "drafted": true,
+      "seconds": 98.44234842399999,
+      "usd": 0.004599,
+      "status": "awaiting_approval",
+      "persona": "ai-ml-engineer",
+      "job_type": "ml"
+    },
+    {
+      "gold": "skip",
+      "pred": "skip",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": null,
+      "unsupported_before": null,
+      "unsupported_after": null,
+      "drafted": false,
+      "seconds": 27.410470447999984,
+      "usd": 0.000973,
+      "status": "skipped",
+      "persona": "data-analyst",
+      "job_type": "other"
+    },
+    {
+      "gold": "bid",
+      "pred": "skip",
+      "scam_gold": false,
+      "scam_pred": false,
+      "in_band": null,
+      "unsupported_before": null,
+      "unsupported_after": null,
+      "drafted": false,
+      "seconds": 33.84816083899997,
+      "usd": 0.0013570000000000001,
+      "status": "skipped",
+      "persona": "data-analyst",
+      "job_type": "data-analysis"
+    }
+  ],
+  "drafts": [
+    {
+      "job": "Scraping data",
+      "proposal": "You need to scrape telecom data from many public sources and deliver a Python script that automates the extraction. I have experience in Python, including building data pipelines and automation scripts. Proposed mini\u2011plan:\n1. List the target URLs and define the data fields to capture.\n2. Develop a modular scraper using requests and BeautifulSoup with retry logic and error handling for site changes.\n3. Run a test batch on a sample data set, generate CSV output, and write a short usage README.\n4. Deliver the script, documentation, and any required dependencies within the 4\u2011hour window. Which specific telecom sites should be prioritized for the initial run?"
+    },
+    {
+      "job": "Develop an AI Recommendation System for Trainer Matching Using Large Language Models",
+      "proposal": "You need a secure, LLM\u2011driven recommendation system that matches trainers to classes while protecting your proprietary data. I have 4\u202fyears of freelance AI/ML work focusing on Python, PyTorch, Hugging Face, and LLM fine\u2011tuning, as shown in my CV [ai--cv]. I also have experience with FastAPI and Docker for building APIs, as listed in my CV [ai--cv]. Additionally, I delivered a PyTorch\u2011based platform for a healthcare client, demonstrating my ability to handle complex ML pipelines and secure data handling [ai--prop-082]. Proposed first steps:\n1. Review your data schema, confidentiality requirements, and class\u2011trainer attributes.\n2. Fine\u2011tune a Hugging Face model on the trainer dataset to generate semantic embeddings.\n3. Implement a FastAPI endpoint that ranks trainers per class request and returns results securely.\n4. Provide documentation and a hand\u2011over session for non\u2011technical stakeholders. What format are your trainer profiles and feedback data currently stored in?"
+    }
+  ],
+  "dataset": "GigSim-lite substitute dev set"
+}

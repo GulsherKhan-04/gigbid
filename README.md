@@ -49,6 +49,8 @@ Embeddings: bge-small (open model, CPU, via fastembed).
 | v2_hybrid | 0.1524 | 0.2594 | 0.4079 |
 | v4_outcome | 0.0304 | 0.0895 | 0.0905 |
 
+Judge calibration: 30 items labelled by me, Cohen's kappa 0.045 with the LLM judge; all 17 disagreements were me = good, judge = bad (evals/results/judge_calibration.json).
+
 Source: `evals/results/rag_retrieval.json`. **Finding:** hybrid BM25 + dense (V2) wins on real postings, which name
 exact tools; per-requirement decomposition and outcome boosting pull in past proposals instead of proof.
 Shipped: `v2_hybrid` (`agent/config.yaml`). On an earlier fully synthetic dev set the naive baseline won, which shows

@@ -1,0 +1,109 @@
+{
+  "generated_at": "2026-11-11T05:31:57",
+  "n": 30,
+  "cohens_kappa": 0.0449,
+  "disagreements": [
+    {
+      "i": 0,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your logistics brief needs Celery. I did exactly this in my celery service for a logistics client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 1,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your SaaS brief needs SQL. I did exactly this in my sql pipeline for a saas client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 4,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your logistics brief needs Power BI. I did exactly this in my power bi platform for a logistics client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 5,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "You need to scrape telecom data from many public sources and deliver a Python script that automates the extraction. I have experience in Python, including building data pipelines and automation scripts. Proposed mini\u2011plan:\n1. List the target URLs and define the data fields to capture.\n2. Develop a m"
+    },
+    {
+      "i": 7,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your fintech brief needs Airflow. I did exactly this in my airflow dashboard for a fintech client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 9,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs dbt. I did exactly this in my dbt pipeline for a healthcare client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 11,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs Excel. I did exactly this in my excel dashboard for a healthcare client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 13,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your e-commerce brief needs Power BI. I did exactly this in my power bi pipeline for a e-commerce client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 14,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your logistics brief needs Node.js. I did exactly this in my node.js pipeline for a logistics client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 15,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs SQL. I did exactly this in my sql tool for a healthcare client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 17,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your education brief needs Docker. I did exactly this in my docker pipeline for a education client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 19,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs TypeScript. I did exactly this in my typescript dashboard for a healthcare client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 20,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your media brief needs Docker. I did exactly this in my docker dashboard for a media client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 21,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs SQL. I did exactly this in my sql tool for a healthcare client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 24,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your e-commerce brief needs Node.js. I did exactly this in my node.js service for a e-commerce client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 25,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your SaaS brief needs Celery. I did exactly this in my celery dashboard for a saas client; I would start by reviewing your current setup."
+    },
+    {
+      "i": 26,
+      "human": "good",
+      "judge": "bad",
+      "proposal": "Your healthcare brief needs dbt. I did exactly this in my dbt service for a healthcare client; I would start by reviewing your current setup."
+    }
+  ]
+}
